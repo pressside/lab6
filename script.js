@@ -1,16 +1,16 @@
 const container = document.getElementById('container');
 const changeBgButton = document.getElementById('change-bg');
 
-// Backgrounds array
+// Список возможных фонов
 const backgrounds = [
-    'linear-gradient(to right, #1f4037, #99f2c8)',
-    'linear-gradient(to right, #e96443, #904e95)',
-    'linear-gradient(to right, #ff5f6d, #ffc371)',
+    'linear-gradient(to right, #74ebd5, #acb6e5)',
+    'linear-gradient(to right, #ff7e5f, #feb47b)',
+    'linear-gradient(to right, #6a11cb, #2575fc)',
     'white'
 ];
 let currentBgIndex = 0;
 
-// Pokemon sprites array
+// Список спрайтов покемонов
 const pokemonSprites = [
     'https://img.pokemondb.net/sprites/black-white/anim/normal/pikachu.gif',
     'https://img.pokemondb.net/sprites/black-white/anim/normal/charmander.gif',
@@ -24,36 +24,38 @@ const pokemonSprites = [
     'https://img.pokemondb.net/sprites/black-white/anim/normal/psyduck.gif'
 ];
 
-// Change background logic
+// Логика смены фона
 changeBgButton.addEventListener('click', () => {
     currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
     document.body.style.background = backgrounds[currentBgIndex];
 });
 
-// Logic for pokeball and pokemon display
+// Логика появления покебола и покемона
 container.addEventListener('click', (e) => {
     const x = e.clientX;
     const y = e.clientY;
 
-    // Remove existing elements
-    const existingElements = document.querySelectorAll('.pokemon, .pokeball');
-    existingElements.forEach(el => el.remove());
+    // Удаляем все покемонов перед добавлением нового
+    const existingPokemons = document.querySelectorAll('.pokemon');
+    existingPokemons.forEach(pokemon => pokemon.remove());
 
-    // Create pokeball
+    // Создание покебола
     const pokeball = document.createElement('div');
     pokeball.className = 'pokeball';
-    pokeball.style.left = `${x - 25}px`;
-    pokeball.style.top = `${y - 25}px`;
+    pokeball.style.left = `${x}px`;
+    pokeball.style.top = `${y}px`;
     container.appendChild(pokeball);
 
-    // Replace pokeball with pokemon
+    // Удаление покебола и добавление покемона
     setTimeout(() => {
         const pokemon = document.createElement('div');
         pokemon.className = 'pokemon';
-        pokemon.style.left = `${x - 50}px`;
-        pokemon.style.top = `${y - 50}px`;
+        pokemon.style.left = `${x - 50}px`; // Центрируем покемона
+        pokemon.style.top = `${y - 50}px`; // Над покеболом
         pokemon.style.backgroundImage = `url('${pokemonSprites[Math.floor(Math.random() * pokemonSprites.length)]}')`;
         container.appendChild(pokemon);
+
+        // Удаляем покебол
         pokeball.remove();
     }, 1000);
 });
